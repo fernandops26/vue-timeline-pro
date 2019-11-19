@@ -1,8 +1,3 @@
-import Vue from 'vue'
-import App from './App.vue'
+import VueTimelinePro from './components/VueTimelinePro.vue';
 
-Vue.config.productionTip = false
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app')
+export default VueTimelinePro
