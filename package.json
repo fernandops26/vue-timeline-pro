@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "build-lib": "vue-cli-service build --target lib --name vue-timeline-pro src/main.js",
+    "build-lib": "vue-cli-service build --no-clean --target lib --name vue-timeline-pro src/main.js",
     "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
     "build:umd": "rollup --config rollup.config.js --format umd --file dist/vue-timeline-pro.umd.js",
     "build:es": "rollup --config rollup.config.js --format es --file dist/vue-timeline-pro.esm.js",

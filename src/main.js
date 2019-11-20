@@ -2,7 +2,7 @@ import VueTimelinePro from './components/VueTimelinePro.vue';
 
 const defaultComponentName = 'VueTimelinePro';
 
-export function install(Vue, options = {}) {
+const install = function (Vue, options = {}) {
     if (install.installed) {
         return;
     }
@@ -30,4 +30,4 @@ if (GlobalVue) {
     GlobalVue.use(plugin);
 }
 
-export default VueTimelinePro;
+export default plugin;
