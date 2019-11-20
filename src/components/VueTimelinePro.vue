@@ -56,11 +56,12 @@
 </template>
 
 <script>
-import Update from '@/components/Update.vue';
-import UpdateForm from '@/components/UpdateForm.vue';
-import FirstPlus from '@/components/FirstPlus.vue';
+import Update from './Update.vue';
+import UpdateForm from './UpdateForm.vue';
+import FirstPlus from './FirstPlus.vue';
 
 export default {
+    name: 'VueTimelinePro',
     props: {
         iconList: {
             type: Array,

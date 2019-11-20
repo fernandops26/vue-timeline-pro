@@ -1,12 +1,15 @@
 {
   "name": "vue-timeline-pro",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build-lib": "vue-cli-service build --target lib --name vue-timeline-pro src/main.js"
+    "build-lib": "vue-cli-service build --target lib --name vue-timeline-pro src/main.js",
+    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
+    "build:umd": "rollup --config rollup.config.js --format umd --file dist/vue-timeline-pro.umd.js",
+    "build:es": "rollup --config rollup.config.js --format es --file dist/vue-timeline-pro.esm.js",
+    "build:unpkg": "rollup --config rollup.config.js --format iife --file dist/vue-timeline-pro.min.js"
   },
   "dependencies": {
     "core-js": "^3.3.2",
@@ -14,7 +17,16 @@
     "sass-loader": "^8.0.0",
     "vue": "^2.6.10"
   },
-  "main": "./dist/vue-timeline-pro.common.js",
+  "main": "dist/vue-timeline-pro.umd.js",
+  "module": "dist/vue-timeline-pro.esm.js",
+  "unpkg": "dist/vue-timeline-pro.min.js",
+  "files": [
+    "dist/*",
+    "src/*",
+    "public/*",
+    "*.json",
+    "*.js"
+  ],
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
@@ -22,7 +34,11 @@
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "vue-template-compiler": "^2.6.10"
+    "vue-template-compiler": "^2.6.10",
+    "rollup": "^1.17.0",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-vue": "^5.0.1"
   },
   "eslintConfig": {
     "root": false,
@@ -33,8 +49,7 @@
       "plugin:vue/essential"
     ],
     "rules": {},
-    "parserOptions": {
-    }
+    "parserOptions": {}
   },
   "postcss": {
     "plugins": {

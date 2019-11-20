@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Date from '@/components/Date.vue';
+import Date from './Date.vue';
 
 export default {
     name: 'UpdateForm',
