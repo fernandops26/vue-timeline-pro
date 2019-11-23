@@ -48,9 +48,24 @@ export default {
         updatePosition(e) {
             if (!this.readOnly) {
                 this.$refs.plus.classList.add('is-visible');
-                const offset = (e.clientY - this.$refs.updateItem.offsetTop + 'px');
-                this.$refs.plus.style.top = offset;
+                const currentPosition = this.$refs.plus.style.top.slice(0, -2);
+                if (currentPosition > (this.$refs.updateItem.offsetHeight + 10) || (currentPosition < -5)) {
+                    this.$refs.plus.classList.remove('is-visible');
+                }
+
+                let newPosition = (e.pageY - (this.$refs.updateItem.offsetParent == document.body ? this.$refs.updateItem.offsetTop :  this.getOffsetTop(this.$refs.updateItem)));
+                newPosition = (newPosition - 5) + 'px';
+                this.$refs.plus.style.top = newPosition;
             }
+        },
+        getOffsetTop(element) {
+            let offsetTop = 0;
+            while(element) {
+                offsetTop += element.offsetTop;
+                element = element.offsetParent;
+            }
+
+            return offsetTop;
         },
         reset(e) {
             if (!this.readOnly) {
@@ -169,7 +184,6 @@ button.dots {
         background: #fff;
 
         &_button {
-            //border: solid 1px rgba(#000, .1);
             padding: .4em .5em;
 
             &:hover {

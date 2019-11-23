@@ -1,8 +1,6 @@
 <template>
     <div class="timeline_pro">
         <br>
-        <br>
-        <br>
         <FirstPlus @onDraft="createDraft(0, 'left')" v-if="!readOnly"/>
         <div
             :key="item.timelineId"
@@ -209,7 +207,6 @@ export default {
 
             if (index != 0) {
                 index = this.updateList.findIndex(item => item.timelineId == index)
-                console.log(index)
             }
 
             this.updateList.splice(index, 0, newItem);
@@ -278,15 +275,14 @@ export default {
     &_update {
         font-family: "Roboto", Arial, Helvetica, sans-serif;
         display: flex;
-        //overflow: hidden;
         max-width: 600px;
         padding-bottom: 2em;
-        //color: #fff;
+        border: solid 1px transparent;
+        position: relative;
 
         &_left {
             display: none;
             flex: 0 0 auto;
-            //width: 120px;
             text-align: right;
         }
 
@@ -303,15 +299,14 @@ export default {
                 transform: translateX(-50%);
                 height: 40px;
                 width: 40px;
-                background: #fff;
-                // border:solid 1px;
 
                 &_empty {
+                    position: absolute;
+                    background: rgba(rgb(117, 117, 117), 1);
                     width: 35px;
                     height: 35px;
-                    left: 10px;
+                    left: 2px;
                     border-radius: 50%;
-                    background: #ddd;
                 }
 
                 &_circle {
@@ -370,9 +365,9 @@ export default {
 
             &_line {
                 display: inline-block;
-                margin-top: 32px;
+                margin-top: 43px;
                 width: 1px;
-                height: 100%;
+                height: calc(100% - 10px);
                 background-color: #313d4f;
 
                 &.is-last {
@@ -429,6 +424,10 @@ export default {
 
                 &.is-visible {
                     display: block;
+                } 
+
+                &.is-static {
+                    display: block;
                 }
 
                 &.is-last {
@@ -474,10 +473,11 @@ export default {
                 &_url {
                     display: block;
                     font-size: .8em;
-                    max-width: 300px;
+                    max-width: 350px;
                     outline: 0;
                     border: none;
-                    border-bottom: solid 1px rgba(#000, 0.96);
+                    padding: 0.5em;
+                    background: rgba(rgb(247, 246, 246), 1);
                 }
             }
 
@@ -509,13 +509,10 @@ export default {
                     padding: 5px 7px;
                     background: rgba(#ddd, .5);
 
-                    &.acept {
-                        // background: blue;
-                    }
+                    &.acept {}
 
                     &.cancel {
                         margin-left: 5px;
-                        // background: red;
                     }
                 }
             }
@@ -536,6 +533,7 @@ export default {
             writing-mode: horizontal-tb !important;
             resize: none;
             margin-bottom: 1em;
+            background: transparent;
 
             &.title {
                 font-size: 1.2em;
@@ -548,9 +546,7 @@ export default {
 }
 
 // circle
-
 .timelime-pro-bullet-circle {
-  //@include size(100px 100px);
   
     border-radius: 100%;
     animation: rotateThis 1s linear infinite;

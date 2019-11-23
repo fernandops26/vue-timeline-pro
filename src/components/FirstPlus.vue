@@ -2,7 +2,7 @@
     <div class="timeline_pro_update">
         <div class="timeline_pro_update_center">
             <span class="timeline_pro_update_center_line"></span>
-            <span class="timeline_pro_update_center_new is-visible"  @click="$emit('onDraft')">
+            <span class="timeline_pro_update_center_new is-static"  @click="$emit('onDraft')">
             </span>
         </div>
         <div class="timeline_pro_update_right">
