@@ -90,7 +90,14 @@ export default {
             this.isOpenMenu = false;
         },
         createDraft() {
-            this.$emit('onDraft', this.index, 'right');
+            const direction = this.getDirection();
+            this.$emit('onDraft', this.index, direction);
+        },
+        getDirection() {
+            const currentPosition = this.$refs.plus.style.top.slice(0, -2);
+            const percent = (currentPosition * 100) / this.$refs.updateItem.offsetHeight;
+            
+            return percent < 50 ? 'left' : 'right';
         }
     }
 }

@@ -207,6 +207,10 @@ export default {
 
             if (index != 0) {
                 index = this.updateList.findIndex(item => item.timelineId == index)
+
+                if (direction == 'right') {
+                    index++;
+                }
             }
 
             this.updateList.splice(index, 0, newItem);
