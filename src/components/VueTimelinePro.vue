@@ -97,24 +97,9 @@ export default {
                 }
             )
         },
-        items: {
+        updates: {
             type: Array,
-            default: () => [
-                {
-                    icon: 'https://image.flaticon.com/icons/svg/2200/2200787.svg',
-                    title: 'Primero titulo',
-                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum aliquam porro sunt quis molestiae voluptates reiciendis pariatur eveniet, enim illo. Deserunt fuga accusamus soluta eaque veritatis et quo aliquam sed.',
-                    date: new Date(),
-                    url: '#'
-                },
-                {
-                    icon: 'https://image.flaticon.com/icons/svg/2200/2200787.svg',
-                    title: 'Segundo titulo',
-                    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum aliquam porro sunt quis molestiae voluptates reiciendis pariatur eveniet, enim illo. Deserunt fuga accusamus soluta eaque veritatis et quo aliquam sed.',
-                    date: new Date(),
-                    url: '#'
-                }
-            ]
+            default: () => []
         },
         readOnly: {
             type: Boolean,
@@ -142,7 +127,7 @@ export default {
     },
     methods: {
         loadData() {
-            this.updateList = this.items.map(this.fillObject)
+            this.updateList = this.updates.map(this.fillObject)
         },
         editUpdate(timelineId) {
             // another new approach
@@ -162,7 +147,7 @@ export default {
         fillObject(item, index) {
             const { title, description, date, icon, url } = this.$props.modelItem;
 
-            return {
+            const timelineItem = {
                 timelineId: this.generateId(),
                 title: item[title],
                 description: item[description],
@@ -171,6 +156,8 @@ export default {
                 url: item[url],
                 mode: 'normal'
             }
+
+            return Object.assign({}, item, timelineItem);
         },
         resetWorkingItem() {
             const workingTimelineId = this.workingTimelineId;
@@ -223,6 +210,7 @@ export default {
         },
         onAcceptUpdate(receivedItem) {
             const workingTimelineId = this.workingTimelineId;
+            this.sendItem(receivedItem);
             const newList = this.updateList.map(item => {
                 if (item.timelineId == workingTimelineId) {
                     item = Object.assign(item, receivedItem);
@@ -231,13 +219,29 @@ export default {
 
                 return item
             });
-
             this.updateList = this.sortList(newList);
 
             this.resetWorkingItem();
         },
         cancelUpdate() {
             this.resetWorkingItem();
+        },
+        sendItem(received) {
+            const found = this.updateList.find(item => item.timelineId == this.workingTimelineId);
+            const item = Object.assign({}, found, received);
+            let eventName = '';
+
+            if (item.mode == 'draft') {
+                eventName = 'onAddItem';
+            }
+
+            if (item.mode == 'edit') {
+                eventName = 'onUpdateItem';
+            }
+
+            delete item.timelineId;
+            delete item.mode;
+            this.$emit(eventName, item);
         }
     }
 }
