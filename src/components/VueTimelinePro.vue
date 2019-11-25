@@ -1,6 +1,5 @@
 <template>
     <div class="timeline_pro">
-        <br>
         <FirstPlus @onDraft="createDraft(0, 'left')" v-if="!readOnly"/>
         <div
             :key="item.timelineId"
@@ -63,7 +62,8 @@ export default {
     props: {
         iconList: {
             type: Array,
-            default: () => [
+            default: () => []
+            /*default: () => [
                 'https://image.flaticon.com/icons/svg/2200/2200787.svg',
                 'https://www.flaticon.com/premium-icon/icons/svg/2200/2200815.svg',
                 'https://image.flaticon.com/icons/svg/2200/2200791.svg',
@@ -83,7 +83,7 @@ export default {
                 'https://image.flaticon.com/icons/svg/1027/1027567.svg',
                 'https://image.flaticon.com/icons/svg/924/924514.svg',
                 'https://image.flaticon.com/icons/svg/1029/1029132.svg'
-            ]
+            ]*/
         },
         modelItem: {
             default: () => (
@@ -298,7 +298,7 @@ export default {
 
             &_bullet {
                 position: absolute;
-                top: 2px;
+                top: 15px;
                 left: 50%;
                 transform: translateX(-50%);
                 height: 40px;
@@ -369,7 +369,7 @@ export default {
 
             &_line {
                 display: inline-block;
-                margin-top: 43px;
+                margin-top: 55px;
                 width: 1px;
                 height: calc(100% - 10px);
                 background-color: #313d4f;
@@ -431,6 +431,7 @@ export default {
                 } 
 
                 &.is-static {
+                    margin-top: 15px;
                     display: block;
                 }
 

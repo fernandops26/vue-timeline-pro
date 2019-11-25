@@ -58,23 +58,17 @@ export default {
         },
         getDays() {
             let days = this.getDaysInMonth(this.month, this.year);
-            days = [...Array(days).keys()];
+            days = new Array(days).fill(0);
 
-            return days.map(x => {
-                x++;
-
-                return x;
-            });
+            return days.map((x, i) => i + 1);
         },
         getYears() {
             const currentYear = new Date().getFullYear();
             const numberOfYears = currentYear - (currentYear - 90);
 
-            let years = [...Array(numberOfYears).keys()];
+            let years = new Array(numberOfYears).fill(0);
 
-            return years.map(x => {
-                return currentYear - x;
-            });
+            return years.map((x, i) => (currentYear - i));
         },
         setInitialDate() {
             this.usableDate = this.date;
@@ -88,7 +82,7 @@ export default {
             return new Date(year, month, 0).getDate();
         },
         getCompleteDate() {
-            return new Date(this.year, this.month, this.day);
+            return new Date(this.year, this.month - 1, this.day);
         },
         emitChange() {
             this.$emit('changeDate', this.getCompleteDate());

@@ -8,7 +8,7 @@
                 <span class="timeline_pro_update_center_bullet_circle" @mousedown="toggleMenuIconList"></span>
                 <img :src="iconItem" alt="">
             </span>
-            <div :class="'timeline_pro_update_center_iconlist ' + (iconListVisible ? 'is-visible' : '')" @blur.native="blurMenuIconList">
+            <div v-if="iconList" :class="'timeline_pro_update_center_iconlist ' + (iconListVisible ? 'is-visible' : '')" @blur.native="blurMenuIconList">
                 <div class="timeline_pro_update_center_iconlist-item" :key="indexItem" v-for="(item, indexItem) of iconList">
                     <img :src="item" alt="icon" @click="selectIcon(item)">
                 </div>
@@ -87,6 +87,10 @@ export default {
             element.style.height = (element.scrollHeight)+"px";
         },
         toggleMenuIconList() {
+            if (!this.iconList || !this.iconList.length) {
+                return;
+            }
+
             this.iconListVisible = !this.iconListVisible;
         },
         blurMenuIconList() {
