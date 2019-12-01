@@ -1,6 +1,6 @@
 <template>
     <div class="timeline_pro">
-        <FirstPlus @onDraft="createDraft(0, 'left')" v-if="!readOnly"/>
+        <FirstPlus @onDraft="createDraft(0, 'left')" v-if="!readOnly" :suggestive="suggestiveText"/>
         <div
             :key="item.timelineId"
             v-for="(item, i) in updateList"
@@ -14,10 +14,12 @@
             :icon="item.icon"
             :url="item.url"
             :index="item.timelineId"
-            :iconList="iconList"
+            :iconList="imageList"
             :isLast="i == updateList.length - 1"
             :accept="onAcceptUpdate"
             @cancel="cancelUpdate"
+            :cancelText="cancelButtonText"
+            :acceptText="acceptButtonText"
         />
         <Update
             v-if="item.mode == 'normal'"
@@ -33,6 +35,8 @@
             @onDraft="createDraft"
             :readOnly="readOnly"
             :isLast="i == updateList.length - 1"
+            :linkProps="linkProps"
+            :onFormatDate="onFormatDate"
         />
         <UpdateForm
             v-if="!readOnly && (item.mode == 'draft' || item.mode == 'edit') && draftDirection == 'right'"
@@ -43,10 +47,12 @@
             :icon="item.icon"
             :url="item.url"
             :index="item.timelineId"
-            :iconList="iconList"
+            :iconList="imageList"
             :isLast="i == updateList.length - 1"
             :accept="onAcceptUpdate"
             @cancel="cancelUpdate"
+            :cancelText="cancelButtonText"
+            :acceptText="acceptButtonText"
         />
         </div>
     </div>
@@ -60,30 +66,9 @@ import FirstPlus from './FirstPlus.vue';
 export default {
     name: 'VueTimelinePro',
     props: {
-        iconList: {
+        imageList: {
             type: Array,
-            default: () => []
-            /*default: () => [
-                'https://image.flaticon.com/icons/svg/2200/2200787.svg',
-                'https://www.flaticon.com/premium-icon/icons/svg/2200/2200815.svg',
-                'https://image.flaticon.com/icons/svg/2200/2200791.svg',
-                'https://image.flaticon.com/icons/svg/1684/1684439.svg',
-                'https://image.flaticon.com/icons/svg/1373/1373259.svg',
-                'https://image.flaticon.com/icons/svg/1373/1373276.svg',
-                'https://image.flaticon.com/icons/svg/1373/1373294.svg',
-                'https://image.flaticon.com/icons/svg/1373/1373288.svg',
-                'https://image.flaticon.com/icons/svg/1006/1006106.svg',
-                'https://image.flaticon.com/icons/svg/1006/1006124.svg',
-                'https://image.flaticon.com/icons/svg/1006/1006636.svg',
-                'https://image.flaticon.com/icons/svg/124/124754.svg',
-                'https://image.flaticon.com/icons/svg/124/124764.svg',
-                'https://image.flaticon.com/icons/svg/124/124790.svg',
-                'https://image.flaticon.com/icons/svg/1140/1140033.svg',
-                'https://image.flaticon.com/icons/svg/897/897066.svg',
-                'https://image.flaticon.com/icons/svg/1027/1027567.svg',
-                'https://image.flaticon.com/icons/svg/924/924514.svg',
-                'https://image.flaticon.com/icons/svg/1029/1029132.svg'
-            ]*/
+            default: () => [],
         },
         modelItem: {
             default: () => (
@@ -103,9 +88,41 @@ export default {
         },
         readOnly: {
             type: Boolean,
-            default: () => {
-                return false;
+            default: () => false
+        },
+        suggestiveText: {
+            type: String,
+            default: () => 'Add a new update'
+        },
+        linkProps: {
+            type: Object,
+            default: () => {}
+        },
+        dateProps: {
+            type: Object,
+            default: () => {}
+        },
+        onFormatDate: {
+            type: Function,
+            default: (date) => {
+                if (!date) {
+                    return '-';
+                }
+
+                return date.toLocaleString('en-US', {
+                    month: 'long', // "June"
+                    day: '2-digit', // "01"
+                    year: 'numeric' // "2019"
+                });
             }
+        },
+        acceptButtonText: {
+            type: String,
+            default: () => 'Accept'
+        },
+        cancelButtonText: {
+            type: String,
+            default: () => 'Cancel'
         }
     },
     data() {
@@ -139,6 +156,8 @@ export default {
         removeUpdate(timelineId) {
             if (confirm("Sure to remove?")) {
                 const indexToRemove = this.updateList.findIndex((item) => item.timelineId == timelineId);
+                const item = this.updateList.find((item) => item.timelineId == timelineId);
+                this.$emit('onRemoveItem', item, indexToRemove);
 
                 this.updateList.splice(indexToRemove, 1);
                 this.resetWorkingItem();
@@ -228,6 +247,7 @@ export default {
         },
         sendItem(received) {
             const found = this.updateList.find(item => item.timelineId == this.workingTimelineId);
+            let index = undefined;
             const item = Object.assign({}, found, received);
             let eventName = '';
 
@@ -237,11 +257,12 @@ export default {
 
             if (item.mode == 'edit') {
                 eventName = 'onUpdateItem';
+                index = this.updateList.findIndex(item => item.timelineId == this.workingTimelineId);
             }
 
             delete item.timelineId;
             delete item.mode;
-            this.$emit(eventName, item);
+            this.$emit(eventName, item, index);
         }
     }
 }
@@ -322,16 +343,20 @@ export default {
                     position: absolute;
                     display: block;
                     height: 40px;
-                    right: 5%;
                     width: 40px;
                     border-radius: 50%;
                     animation: rotateThis 1s linear infinite;
                     @include border-gradient(#000, #ddd);
+
+                    + img {
+                        width: 32px;
+                    }
                 }
 
                 > img {
+                    display: block;
                     max-width: 35px;
-                    margin: auto;
+                    margin: 3px auto;
                     height: auto;
                 }
             }

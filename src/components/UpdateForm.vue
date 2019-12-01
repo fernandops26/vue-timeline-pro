@@ -31,8 +31,8 @@
             </div>
 
             <div class="timeline_pro_update_right_buttons">
-                <div class="timeline_pro_update_right_buttons_button acept" @click="saveItem">Aceptar</div>
-                <div class="timeline_pro_update_right_buttons_button cancel" @click="$emit('cancel')">Cancelar</div>
+                <div class="timeline_pro_update_right_buttons_button acept" @click="saveItem">{{acceptText}}</div>
+                <div class="timeline_pro_update_right_buttons_button cancel" @click="$emit('cancel')">{{cancelText}}</div>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@ import Date from './Date.vue';
 
 export default {
     name: 'UpdateForm',
-    props: ['index', 'title', 'icon', 'description', 'date', 'accept', 'iconList', 'isLast', 'url'],
+    props: ['index', 'title', 'icon', 'description', 'date', 'accept', 'iconList', 'isLast', 'url', 'acceptText', 'cancelText'],
     data() {
         return {
             dateItem: null,

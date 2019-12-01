@@ -13,9 +13,9 @@
         <div class="timeline_pro_update_right">
             <div class="timeline_pro_update_right_head">
                 <span class="timeline_pro_update_right_head_date">
-                    {{format(date)}}
+                    {{onFormatDate(date)}}
                 </span>
-                <a :href="url" class="timeline_pro_update_right_head_title">
+                <a :href="url" class="timeline_pro_update_right_head_title" v-bind="linkProps">
                     {{title}}
                 </a>
                 <div class="timeline_menu" v-if="!readOnly">
@@ -38,7 +38,7 @@
 <script>
 export default {
     name: 'Update',
-    props: ['index', 'title', 'description', 'date', 'icon', 'url', 'isLast', 'readOnly'],
+    props: ['index', 'title', 'description', 'date', 'icon', 'url', 'isLast', 'readOnly', 'linkProps', 'onFormatDate'],
     data() {
         return {
             isOpenMenu: false
@@ -71,17 +71,6 @@ export default {
             if (!this.readOnly) {
                 this.$refs.plus.classList.remove('is-visible');
             }
-        },
-        format(date) {
-            if (!date) {
-                return '-';
-            }
-
-            return date.toLocaleString('en-US', {
-                month: 'long', // "June"
-                day: '2-digit', // "01"
-                year: 'numeric' // "2019"
-            });
         },
         openMenu() {
             this.isOpenMenu = !this.isOpenMenu;

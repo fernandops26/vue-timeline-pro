@@ -6,14 +6,15 @@
             </span>
         </div>
         <div class="timeline_pro_update_right">
-            <p style="margin-top: 20px; margin-bottom: 0; font-weight: bold; font-size: 1.1em;">Add a new update</p>
+            <p style="margin-top: 20px; margin-bottom: 0; font-weight: bold; font-size: 1.1em;">{{suggestive}}</p>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'firstPlus'
+    name: 'firstPlus',
+    props: ['suggestive']
 }
 </script>
 
