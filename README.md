@@ -3,6 +3,10 @@
 Simple, highly customizable, and no dependency timeline.
 
 
+<p align="center">
+    <img src="https://media.giphy.com/media/VGDOql2Lb801LlmUDn/giphy.gif" alt="Vue timeline Pro">
+</p>
+
 ## Install
 ```
 npm install vue-timeline-pro --save
@@ -129,6 +133,37 @@ methods: {
 <VueTimelinePro updates="updates" :linkProps="{'target': '_blank'}"/>
 ```
 
+### Redefine update model fields
+
+```js
+<VueTimelinePro :updates="updates" :modelItem="updateModel" />
+```
+
+```js
+data() {
+    return {
+        ...
+        updateModel: {
+          title: 'fooTitle',
+          description: 'fooDescription',
+          date: 'fooDate',
+          icon: 'fooIcon',
+          url: 'fooUrl'
+        }
+    }
+},
+methods: {
+    onAddUpdate(item) {
+        console.log(item);
+        /*  fooDate: (...),
+            fooDescription: (...)
+            fooIcon: (...)
+            fooTitle: (...)
+            fooUrl: (...)
+        */
+    },
+}
+```
 
 
 ## Props
@@ -143,7 +178,7 @@ methods: {
 | cancelButtonText | string  | false    | 'Cancel'                                                                                       | Text for cancel button when is edited the update.                                          |
 | formatDate       | Func    | false    | () => {}...                                                                                    | Function used to format a date object. Default format en-US, example: *December 05, 2019.* |
 | imageList        | Array   | false    | []                                                                                             | List of image urls, used to represent an update.                                           |
-| modelItem        | Object  | false    | {index:'index', title:'title', description:'description', date:'date', icon:'icon', url:'url'} | Update model, will be used to map values of each update.                                   |
+| modelItem        | Object  | false    | title:'title', description:'description', date:'date', icon:'icon', url:'url'} | Update model, will be used to map values of each update.                                                   |
 
 
 ## Events @

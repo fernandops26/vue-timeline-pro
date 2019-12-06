@@ -74,7 +74,6 @@ export default {
             type: Object,
             default: () => (
                 {
-                    index: 'index',
                     title: 'title',
                     description: 'description',
                     date: 'date',
@@ -245,7 +244,7 @@ export default {
         sendItem(received) {
             const found = this.updateList.find(item => item.timelineId == this.workingTimelineId);
             let index = undefined;
-            const item = Object.assign({}, found, received);
+            const item = this.revertFill(Object.assign({}, found, received));
             let eventName = '';
 
             if (item.mode == 'draft') {
@@ -260,6 +259,25 @@ export default {
             delete item.timelineId;
             delete item.mode;
             this.$emit(eventName, item, index);
+        },
+        revertFill(item) {
+            const { title, description, date, icon, url } = this.$props.modelItem;
+
+            const newItem = Object.assign({}, item);
+
+            newItem[title] = newItem.title;
+            newItem[description] = newItem.description;
+            newItem[date] = newItem.date;
+            newItem[icon] = newItem.icon;
+            newItem[url] = newItem.url;
+
+            delete newItem.title;
+            delete newItem.description;
+            delete newItem.date;
+            delete newItem.icon;
+            delete newItem.url;
+
+            return newItem;
         }
     }
 }
