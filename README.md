@@ -116,7 +116,7 @@ methods: {
 <VueTimelinePro updates="updates" :formatDate="formatDate"/>
 ```
 ```js
-// use your favorite library or simpliy vanilla
+// use your favorite library or simply vanilla
 import spacetime from 'spacetime';
 
 ...
