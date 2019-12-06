@@ -36,7 +36,7 @@
             :readOnly="readOnly"
             :isLast="i == updateList.length - 1"
             :linkProps="linkProps"
-            :onFormatDate="onFormatDate"
+            :onFormatDate="formatDate"
         />
         <UpdateForm
             v-if="!readOnly && (item.mode == 'draft' || item.mode == 'edit') && draftDirection == 'right'"
@@ -71,6 +71,7 @@ export default {
             default: () => [],
         },
         modelItem: {
+            type: Object,
             default: () => (
                 {
                     index: 'index',
@@ -88,7 +89,7 @@ export default {
         },
         readOnly: {
             type: Boolean,
-            default: () => false
+            default: () => true
         },
         suggestiveText: {
             type: String,
@@ -98,11 +99,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        dateProps: {
-            type: Object,
-            default: () => {}
-        },
-        onFormatDate: {
+        formatDate: {
             type: Function,
             default: (date) => {
                 if (!date) {
