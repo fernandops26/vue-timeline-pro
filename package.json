@@ -1,11 +1,15 @@
 {
   "name": "vue-timeline-pro",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "author": "Fernando Palacios <jf.palacios.sz@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fernandops26/vue-timeline-pro"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "build-lib": "vue-cli-service build --no-clean --target lib --name vue-timeline-pro src/main.js",
     "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
     "build:umd": "rollup --config rollup.config.js --format umd --file dist/vue-timeline-pro.umd.js",
     "build:es": "rollup --config rollup.config.js --format es --file dist/vue-timeline-pro.esm.js",
