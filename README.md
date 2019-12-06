@@ -27,7 +27,7 @@ If you need to change it, you can do so by providing "componentName" param.
  
 Example:
  
-Vue.use(VModal, { componentName: "foo-timeline-pro" })
+Vue.use(VTimelinePro, { componentName: "foo-timeline-pro" })
 ...
 <foo-timeline-pro updates="updates"></foo-timeline-pro>
 
