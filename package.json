@@ -10,10 +10,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
-    "build:umd": "rollup --config rollup.config.js --format umd --file dist/vue-timeline-pro.umd.js",
-    "build:es": "rollup --config rollup.config.js --format es --file dist/vue-timeline-pro.esm.js",
-    "build:unpkg": "rollup --config rollup.config.js --format iife --file dist/vue-timeline-pro.min.js"
+    "build": "cross-env NODE_ENV=production rollup --config rollup.config.js",
+    "build:ssr": "cross-env NODE_ENV=production rollup --config rollup.config.js --format cjs",
+    "build:es": "cross-env NODE_ENV=production rollup --config rollup.config.js --format es",
+    "build:unpkg": "cross-env NODE_ENV=production rollup --config rollup.config.js --format iife"
   },
   "dependencies": {
     "core-js": "^3.3.2",
@@ -39,10 +39,15 @@
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.6.10",
-    "rollup": "^1.17.0",
-    "rollup-plugin-buble": "^0.19.8",
-    "rollup-plugin-commonjs": "^10.0.1",
-    "rollup-plugin-vue": "^5.0.1"
+    "@rollup/plugin-alias": "^2.2.0",
+    "@rollup/plugin-buble": "^0.20.0",
+    "@rollup/plugin-replace": "^2.2.1",
+    "cross-env": "^6.0.3",
+    "minimist": "^1.2.0",
+    "rollup": "^1.26.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-terser": "^5.1.2",
+    "rollup-plugin-vue": "5.1.1"
   },
   "eslintConfig": {
     "root": false,
