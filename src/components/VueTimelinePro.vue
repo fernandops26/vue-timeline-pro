@@ -319,7 +319,6 @@ export default {
     &_update {
         font-family: "Roboto", Arial, Helvetica, sans-serif;
         display: flex;
-        max-width: 600px;
         padding-bottom: 2em;
         border: solid 1px transparent;
         position: relative;
